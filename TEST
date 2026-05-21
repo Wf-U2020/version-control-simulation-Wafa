@@ -1,0 +1,16 @@
+print ("Hello, World!")
+print (Wafal Alghamdi)
+print "Wafal Alghamdi"
+print (),
+print("Hello, Python!")
+# print("Greg")
+# print(Greg)
+# print"Greg"
+# print('Greg')
+# print("Greg") print("Python")
+# ...</sampleSolution>
+print("My name is", "Python.")
+print("Monty Python.")
+
+print("My name is", "Python.")
+print("Monty Python.") 

@@ -1,0 +1,28 @@
+def greet_user(name=""):
+    if name:
+        print(f"Hello, {name}! Welcome!")
+    else:
+        print("Hello! Welcome!")
+
+
+def add_two_numbers(a, b):
+    return a + b
+
+
+def is_even(num):
+    return num % 2 == 0
+
+
+# Main part of the script
+
+# Demonstrate greet_user()
+greet_user("Wafa")
+greet_user()
+
+# Demonstrate add_two_numbers()
+result = add_two_numbers(10, 5)
+print(f"The sum of 10 and 5 is {result}")
+
+# Demonstrate is_even()
+print(f"4 is even: {is_even(4)}")
+print(f"7 is even: {is_even(7)}")

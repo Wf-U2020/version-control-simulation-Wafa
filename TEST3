@@ -1,0 +1,140 @@
+import os
+import csv
+from task import Task
+from todolist import (
+    add_task,
+    complete_task,
+    delete_task,
+    list_tasks
+)
+
+TASK_FILE = "tasks.csv"
+
+
+def load_tasks():
+    """
+    Loads tasks from a CSV file and returns a task list.
+    """
+    task_list = []
+
+    if not os.path.exists(TASK_FILE):
+        return task_list
+
+    try:
+        with open(TASK_FILE, "r", newline="") as file:
+            reader = csv.reader(file)
+
+            for row in reader:
+                if len(row) == 3:
+                    title, due_date, completed = row
+
+                    if due_date == "":
+                        due_date = None
+
+                    completed = completed.lower() == "true"
+
+                    task = Task(title, due_date, completed)
+                    task_list.append(task)
+
+        print(f"Loaded {len(task_list)} task(s).")
+
+    except Exception as e:
+        print(f"Error loading tasks: {e}")
+
+    return task_list
+
+
+def save_tasks(task_list):
+    """
+    Saves tasks to a CSV file.
+    """
+    try:
+        with open(TASK_FILE, "w", newline="") as file:
+            writer = csv.writer(file)
+
+            for task in task_list:
+                writer.writerow([
+                    task.title,
+                    task.due_date if task.due_date else "",
+                    task.completed
+                ])
+
+        print("Tasks saved successfully.")
+
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
+
+
+def display_menu():
+    print("\n===== PERSONAL TO-DO LIST MANAGER =====")
+    print("(A) Add a new task")
+    print("(C) Complete a task")
+    print("(D) Delete a task")
+    print("(L) List all tasks")
+    print("(Q) Quit")
+
+
+def main():
+    task_list = load_tasks()
+
+    while True:
+        display_menu()
+
+        choice = input("Enter your choice: ").strip().upper()
+
+        if choice == "A":
+            title = input("Task title: ")
+
+            due_date = input(
+                "Due date (YYYY-MM-DD) or press Enter to skip: "
+            ).strip()
+
+            if due_date == "":
+                due_date = None
+
+            add_task(task_list, title, due_date)
+
+        elif choice == "C":
+            list_tasks(task_list)
+
+            try:
+                index = int(
+                    input("Enter task index to complete: ")
+                )
+                complete_task(task_list, index)
+
+            except ValueError:
+                print("Please enter a valid number.")
+
+        elif choice == "D":
+            list_tasks(task_list)
+
+            try:
+                index = int(
+                    input("Enter task index to delete: ")
+                )
+                delete_task(task_list, index)
+
+            except ValueError:
+                print("Please enter a valid number.")
+
+        elif choice == "L":
+            list_tasks(task_list)
+
+        elif choice == "Q":
+            save_choice = input(
+                "Save tasks before quitting? (Y/N): "
+            ).strip().upper()
+
+            if save_choice == "Y":
+                save_tasks(task_list)
+
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid choice.")
+
+
+if __name__ == "__main__":
+    main()
